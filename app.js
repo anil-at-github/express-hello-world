@@ -4,6 +4,29 @@ const port = process.env.PORT || 3001;
 
 app.get("/", (req, res) => res.type('html').send(html));
 
+// ✅ Verification endpoint
+app.get("/webhook", (req, res) => {
+  const VERIFY_TOKEN = "my_custom_token"; // must match what you entered in Meta Developer dashboard
+
+  const mode = req.query["hub.mode"];
+  const token = req.query["hub.verify_token"];
+  const challenge = req.query["hub.challenge"];
+
+  if (mode && token === VERIFY_TOKEN) {
+    console.log("✅ Webhook verified!");
+    res.status(200).send(challenge);
+  } else {
+    console.log("❌ Verification failed");
+    res.sendStatus(403);
+  }
+});
+
+// ✅ For incoming messages
+app.post("/webhook", (req, res) => {
+  console.log("📩 Received message:", JSON.stringify(req.body, null, 2));
+  res.sendStatus(200);
+});
+
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 server.keepAliveTimeout = 120 * 1000;
