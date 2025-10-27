@@ -6,7 +6,7 @@ app.get("/", (req, res) => res.type('html').send(html));
 
 // ✅ Verification endpoint
 app.get("/webhook", (req, res) => {
-  const VERIFY_TOKEN = "my_custom_token"; // must match what you entered in Meta Developer dashboard
+  const VERIFY_TOKEN = "https://express-hello-world-j3yy.onrender.com/webhook"; // must match what you entered in Meta Developer dashboard
 
   const mode = req.query["hub.mode"];
   const token = req.query["hub.verify_token"];
